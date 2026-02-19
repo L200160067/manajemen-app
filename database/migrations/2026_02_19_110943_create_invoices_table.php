@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('issue_date')->index();
             $table->date('due_date')->index();
             $table->enum('status', ['draft', 'sent', 'paid', 'canceled'])->default('draft')->index();
-            $table->decimal('total_amount', 10, 2);
+            $table->decimal('total_amount', 10, 2)->default(0);
             $table->text('notes')->nullable();
             $table->timestamps();
         });
