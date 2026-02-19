@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Invoice;
+use App\Models\Product;
+use Illuminate\Support\Number;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class InvoiceItem extends Model
 {
@@ -31,5 +34,16 @@ class InvoiceItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+
+    public function getFormattedUnitPriceAttribute(): string
+    {
+        return Number::currency($this->unit_price, 'IDR', 'id');
+    }
+
+    public function getFormattedSubtotalAttribute(): string
+    {
+        return Number::currency($this->subtotal, 'IDR', 'id');
     }
 }
