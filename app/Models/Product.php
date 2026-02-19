@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use \Illuminate\Database\Eloquent\Factories\HasFactory;
-    use \Illuminate\Database\Eloquent\SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -19,7 +21,7 @@ class Product extends Model
         'current_price' => 'decimal:2',
     ];
 
-    public function invoiceItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
     }

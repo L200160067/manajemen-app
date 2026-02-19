@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\InvoiceStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Invoice extends Model
 {
-    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+    use HasFactory;
     //
     protected $fillable = [
         'client_id',
@@ -22,15 +26,15 @@ class Invoice extends Model
         'issue_date' => 'date',
         'due_date' => 'date',
         'total_amount' => 'decimal:2',
-        'status' => \App\Enums\InvoiceStatus::class,
+        'status' => InvoiceStatus::class,
     ];
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
     }
