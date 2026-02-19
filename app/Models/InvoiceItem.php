@@ -4,14 +4,23 @@ namespace App\Models;
 
 use App\Models\Invoice;
 use App\Models\Product;
-use Illuminate\Support\Number;
+  
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Number;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class InvoiceItem extends Model
 {
     use HasFactory;
+    
+    protected static function booted()
+    {
+        static::saving(function ($item) {
+            $item->subtotal = $item->quantity * $item->unit_price;
+        });
+    }
+
     protected $fillable = [
         'invoice_id',
         'product_id',
