@@ -16,6 +16,7 @@ class InvoiceItemTest extends TestCase
         $invoice = Invoice::factory()->create(['total_amount' => 0]);
         $product = Product::factory()->create(['current_price' => 50000]);
 
+        /** @var \App\Models\User $user */
         $response = $this->actingAs($user)->post(route('invoices.items.store', $invoice), [
             'product_id' => $product->id,
             'quantity' => 2,
@@ -50,6 +51,7 @@ class InvoiceItemTest extends TestCase
             'subtotal' => 100000,
         ]);
 
+        /** @var \App\Models\User $user */
         $response = $this->actingAs($user)->delete(route('items.destroy', $item));
 
         $response->assertRedirect();

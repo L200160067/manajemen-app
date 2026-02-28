@@ -1,0 +1,23 @@
+
+   FAIL  InvoiceTest
+  ⨯ it can list invoices   2.08s  
+  ✓ it can create invoice  0.12s  
+  ──────────────────────────────  
+   FAILE…  AssertionFailedError   
+  The response is not a view.
+
+  at tests\Feature\InvoiceTest.php:22
+     18▕         /** @var \App\Models\User $user */
+     19▕         $response = $this->actingAs($user)->get(route('invoices.index'));
+     20▕ 
+     21▕         $response->assertStatus(200);
+  ➜  22▕         $response->assertViewHas('invoices');
+     23▕     }
+     24▕ 
+     25▕     public function test_it_can_create_invoice(): void
+     26▕     {
+
+
+  Tests:    1 failed, 1 passed (4 assertions)
+  Duration: 2.84s
+

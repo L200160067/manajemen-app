@@ -1,0 +1,8 @@
+
+   PASS  Tests\Feature\ProductFormTest
+  Γ£ô product form renders              7.50s  
+  Γ£ô product form saves               17.78s  
+
+  Tests:    2 passed (3 assertions)
+  Duration: 25.62s
+

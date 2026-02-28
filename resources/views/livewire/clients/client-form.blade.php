@@ -5,41 +5,49 @@ use App\Models\Client;
 use Illuminate\Validation\Rule;
 
 new class extends Component {
-    public Client $client;
+    public ?Client $client;
 
-    public $name = '';
-    public $email = '';
-    public $phone = '';
-    public $company = '';
-    public $address = '';
+    public string $name = '';
+    public string $email = '';
+    public ?string $phone = '';
+    public ?string $company = '';
+    public ?string $address = '';
 
-    public function mount(Client $client = null)
+    // Isolasi aturan validasi
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('clients')->ignore($this->client?->id)],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'company' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string'],
+        ];
+    }
+
+    public function mount(?Client $client = null)
     {
         $this->client = $client ?? new Client();
 
-        if ($this->client->exists) {
-            $this->name = $this->client->name;
-            $this->email = $this->client->email;
-            $this->phone = $this->client->phone;
-            $this->company = $this->client->company;
-            $this->address = $this->client->address;
-        }
+        // Pemetaan cerdas 1 baris, mengeliminasi kerja kasar
+        $this->fill([
+            'name' => $this->client->name ?? '',
+            'email' => $this->client->email ?? '',
+            'phone' => $this->client->phone,
+            'company' => $this->client->company,
+            'address' => $this->client->address,
+        ]);
     }
 
     public function save()
     {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('clients')->ignore($this->client)],
-            'phone' => ['nullable', 'string', 'max:20'],
-            'company' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string'],
-        ]);
-
-        $this->client->fill($validated);
+        $this->client->fill($this->validate());
         $this->client->save();
 
-        return redirect()->route('clients.index');
+        session()->flash('success', 'Client saved successfully.');
+
+        // Redirect dengan SPA mode, bukan full reload
+        $this->redirectRoute('clients.index', navigate: true);
     }
 };
 ?>
@@ -80,9 +88,8 @@ new class extends Component {
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
             @error('address') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
-
         <div class="flex justify-end gap-4">
-            <a href="{{ route('clients.index') }}"
+            <a href="{{ route('clients.index') }}" wire:navigate
                 class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Cancel</a>
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
         </div>

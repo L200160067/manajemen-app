@@ -16,6 +16,12 @@ new class extends Component
             'products' => Product::search($this->search)->latest()->paginate(10),
         ];
     }
+
+    public function delete(Product $product)
+    {
+        $product->delete();
+        session()->flash('success', 'Product deleted successfully.');
+    }
 };
 ?>
 

@@ -1,0 +1,62 @@
+
+   FAIL  Tests\Feature\LivewireFlashMessageTest
+  ✓ client create flashe… 44.38s  
+  ⨯ client delete flashes… 1.06s  
+  ✓ product create flashe… 0.14s  
+  ⨯ product delete flashe… 0.16s  
+  ⨯ invoice delete flashe… 0.69s  
+  ──────────────────────────────  
+   FAILED  Tests\Feature\Livew…   
+  Failed asserting that false is true.
+
+  at tests\Feature\LivewireFlashMessageTest.php:42
+     38▕         Volt::actingAs($user)
+     39▕             ->test('clients.client-index')
+     40▕             ->call('delete', $client->id);
+     41▕ 
+  ➜  42▕         $this->assertTrue(session()->has('success'));
+     43▕         $this->assertEquals('Client deleted successfully.', session('success'));
+     44▕     }
+     45▕ 
+     46▕     public function test_product_create_flashes_message()
+
+  1   tests\Feature\LivewireFlashMessageTest.php:42
+
+  ──────────────────────────────  
+   FAILED  Tests\Feature\Livew…   
+  Failed asserting that false is true.
+
+  at tests\Feature\LivewireFlashMessageTest.php:70
+     66▕         Volt::actingAs($user)
+     67▕             ->test('products.product-index')
+     68▕             ->call('delete', $product->id);
+     69▕ 
+  ➜  70▕         $this->assertTrue(session()->has('success'));
+     71▕         $this->assertEquals('Product deleted successfully.', session('success'));
+     72▕     }
+     73▕ 
+     74▕     public function test_invoice_delete_flashes_message()
+
+  1   tests\Feature\LivewireFlashMessageTest.php:70
+
+  ──────────────────────────────  
+   FAILED  Tests\Feature\Livew…   
+  Failed asserting that false is true.
+
+  at tests\Feature\LivewireFlashMessageTest.php:83
+     79▕         Volt::actingAs($user)
+     80▕             ->test('invoices.invoice-index')
+     81▕             ->call('delete', $invoice->id);
+     82▕ 
+  ➜  83▕         $this->assertTrue(session()->has('success'));
+     84▕         $this->assertEquals('Invoice deleted successfully.', session('success'));
+     85▕     }
+     86▕ }
+     87▕
+
+  1   tests\Feature\LivewireFlashMessageTest.php:83
+
+
+  Tests:    3 failed, 2 passed (11 assertions)
+  Duration: 47.08s
+

@@ -29,6 +29,12 @@ new class extends Component {
             'invoices' => $query->latest()->paginate(10),
         ];
     }
+
+    public function delete(Invoice $invoice)
+    {
+        $invoice->delete();
+        session()->flash('success', 'Invoice deleted successfully.');
+    }
 };
 ?>
 
@@ -108,10 +114,10 @@ new class extends Component {
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        @if($invoice->status === App\Enums\InvoiceStatus::Paid) bg-green-100 text-green-800 
-                                        @elseif($invoice->status === App\Enums\InvoiceStatus::Sent) bg-blue-100 text-blue-800 
-                                        @elseif($invoice->status === App\Enums\InvoiceStatus::Canceled) bg-gray-100 text-gray-800 
-                                        @else bg-yellow-100 text-yellow-800 @endif">
+                                            @if($invoice->status === App\Enums\InvoiceStatus::Paid) bg-green-100 text-green-800 
+                                            @elseif($invoice->status === App\Enums\InvoiceStatus::Sent) bg-blue-100 text-blue-800 
+                                            @elseif($invoice->status === App\Enums\InvoiceStatus::Canceled) bg-gray-100 text-gray-800 
+                                            @else bg-yellow-100 text-yellow-800 @endif">
                                     {{ $invoice->status->label() }}
                                 </span>
                             </td>

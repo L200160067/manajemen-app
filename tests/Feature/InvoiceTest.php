@@ -15,6 +15,7 @@ class InvoiceTest extends TestCase
         $user = User::factory()->create();
         Invoice::factory()->count(3)->create();
 
+        /** @var \App\Models\User $user */
         $response = $this->actingAs($user)->get(route('invoices.index'));
 
         $response->assertStatus(200);
@@ -26,6 +27,7 @@ class InvoiceTest extends TestCase
         $user = User::factory()->create();
         $client = Client::factory()->create();
 
+        /** @var \App\Models\User $user */
         $response = $this->actingAs($user)->post(route('invoices.store'), [
             'client_id' => $client->id,
             'invoice_number' => 'INV-TEST-001',

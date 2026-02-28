@@ -1,38 +1,47 @@
 <?php
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\Validate;
 use App\Models\Product;
 
 new class extends Component {
-    public Product $product;
+    public ?Product $product = null;
 
-    public $name = '';
-    public $description = '';
-    public $current_price = '';
+    #[Validate('required|string|max:255')]
+    public string $name = '';
+
+    #[Validate('nullable|string')]
+    public string $description = '';
+
+    #[Validate('required|numeric|min:0')]
+    public $current_price = ''; // Keep as loose type for input, but validate as numeric
 
     public function mount(Product $product = null)
     {
         $this->product = $product ?? new Product();
 
         if ($this->product->exists) {
-            $this->name = $this->product->name;
-            $this->description = $this->product->description;
+            $this->name = $this->product->name ?? '';
+            $this->description = $this->product->description ?? '';
             $this->current_price = $this->product->current_price;
         }
     }
 
     public function save()
     {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'current_price' => ['required', 'numeric', 'min:0'],
+        $this->validate();
+
+        $this->product->fill([
+            'name' => $this->name,
+            'description' => $this->description,
+            'current_price' => $this->current_price,
         ]);
 
-        $this->product->fill($validated);
         $this->product->save();
 
-        return redirect()->route('products.index');
+        session()->flash('success', 'Product saved successfully.');
+
+        $this->redirectRoute('products.index');
     }
 };
 ?>

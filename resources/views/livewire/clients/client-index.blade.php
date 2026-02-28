@@ -15,6 +15,12 @@ new class extends Component {
             'clients' => Client::search($this->search)->latest()->paginate(10),
         ];
     }
+
+    public function delete(Client $client)
+    {
+        $client->delete();
+        session()->flash('success', 'Client deleted successfully.');
+    }
 };
 ?>
 
