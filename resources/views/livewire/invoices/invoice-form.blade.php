@@ -158,9 +158,9 @@ new class extends Component {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="client_id" class="block text-sm font-medium text-gray-700">Client</label>
-                    <select wire:model="client_id" id="client_id"
+                    <select wire:model.live="client_id" id="client_id"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        <option value="">Select Client</option>
+                        <option value="">Pilih Klien..</option>
                         @foreach($clients as $client)
                             <option value="{{ $client->id }}">{{ $client->name }} ({{ $client->company ?? 'No Company' }})
                             </option>
@@ -171,28 +171,28 @@ new class extends Component {
 
                 <div>
                     <label for="invoice_number" class="block text-sm font-medium text-gray-700">Invoice Number</label>
-                    <input wire:model="invoice_number" type="text" id="invoice_number"
+                    <input wire:model.blur="invoice_number" type="text" id="invoice_number"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     @error('invoice_number') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
                     <label for="issue_date" class="block text-sm font-medium text-gray-700">Issue Date</label>
-                    <input wire:model="issue_date" type="date" id="issue_date"
+                    <input wire:model.live="issue_date" type="date" id="issue_date"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     @error('issue_date') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
                     <label for="due_date" class="block text-sm font-medium text-gray-700">Due Date</label>
-                    <input wire:model="due_date" type="date" id="due_date"
+                    <input wire:model.live="due_date" type="date" id="due_date"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     @error('due_date') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                    <select wire:model="status" id="status"
+                    <select wire:model.live="status" id="status"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         @foreach(App\Enums\InvoiceStatus::cases() as $s)
                             <option value="{{ $s->value }}">{{ $s->label() }}</option>
@@ -204,7 +204,7 @@ new class extends Component {
 
             <div>
                 <label for="notes" class="block text-sm font-medium text-gray-700">Notes</label>
-                <textarea wire:model="notes" id="notes" rows="2"
+                <textarea wire:model.blur="notes" id="notes" rows="2"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
                 @error('notes') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
@@ -225,7 +225,7 @@ new class extends Component {
                             <label class="block text-xs font-medium text-gray-700">Product</label>
                             <select wire:model.live="items.{{ $index }}.product_id"
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                <option value="">Select Product</option>
+                                <option value="">Pilih Produk..</option>
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
                                 @endforeach
